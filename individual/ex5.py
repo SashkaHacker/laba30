@@ -1,37 +1,37 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import tkinter as tk
+from tkinter import *
 
 
-class InfoButtons:
-    def __init__(self, master):
-        self.master = master
-        master.title("Информация")
+class RadioButtonInfo:
+    def __init__(self, master, text, info, value):
+        self.radiobutton = Radiobutton(
+            master,
+            text=text,
+            indicatoron=0,
+            variable=var,
+            value=value,
+            command=lambda i=info: self.show_info(i)
+        )
+        self.radiobutton.pack(anchor='w', side=LEFT, padx=5, pady=5)
 
-        self.info = {
-            "Кнопка 1": "Информация для кнопки 1",
-            "Кнопка 2": "Информация для кнопки 2",
-            "Кнопка 3": "Информация для кнопки 3"
-        }
-
-        self.var = tk.StringVar(value="Кнопка 1")
-        self.label = tk.Label(master, text=self.info["Кнопка 1"])
-
-        row = 0
-        for name in self.info.keys():
-            button = tk.Radiobutton(master, text=name, variable=self.var, value=name, indicatoron=0, command=self.show_info)
-            button.grid(row=row, column=0)
-            row += 1
-
-        self.label.grid(row=row, column=0)
-
-    def show_info(self):
-        selected_button = self.var.get()
-        self.label.config(text=self.info[selected_button])
+    def show_info(self, info):
+        label['text'] = info
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    info_buttons = InfoButtons(root)
+    root = Tk()
+    root.title("Информация о радиокнопках")
+
+    var = IntVar()
+    var.set(0)
+
+    label = Label(root, text="Выберите радиокнопку", width=30)
+    label.pack(pady=10)
+
+    RadioButtonInfo(root, "Python", "Python - интерпретируемый язык программирования", 0)
+    RadioButtonInfo(root, "Java", "Java - компилируемый язык программирования", 1)
+    RadioButtonInfo(root, "C++", "C++ - компилируемый язык программирования", 2)
+
     root.mainloop()

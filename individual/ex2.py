@@ -4,47 +4,44 @@
 import tkinter as tk
 
 
-class RainbowButtons:
-    def __init__(self, master):
-        self.master = master
-        master.title("Цвета радуги")
-
-        self.colors = {
-            "Красный": "#ff0000",
-            "Оранжевый": "#ff7d00",
-            "Желтый": "#ffff00",
-            "Зеленый": "#00ff00",
-            "Голубой": "#007dff",
-            "Синий": "#0000ff",
-            "Фиолетовый": "#7d00ff",
-        }
-
-        self.label_color = tk.Label(master, text="Цвет:")
-        self.entry_code = tk.Entry(master, width=10)
-        self.label_name = tk.Label(master, text="")
-
-        row = 1
-        for name, code in self.colors.items():
-            button = tk.Button(
-                master,
-                text=name,
-                bg=code,
-                command=lambda c=code, n=name: self.show_color(c, n),
-            )
-            button.grid(row=row, column=0)
-            row += 1
-
-        self.label_color.grid(row=0, column=0)
-        self.entry_code.grid(row=0, column=1)
-        self.label_name.grid(row=0, column=2)
-
-    def show_color(self, code, name):
-        self.entry_code.delete(0, tk.END)
-        self.entry_code.insert(0, code)
-        self.label_name.config(text=name)
+# Функция, которая будет вызываться при нажатии на кнопку
+def set_color(color_code, color_name):
+    # Устанавливаем текст в текстовое поле и метку
+    text_field.delete(0, tk.END)
+    text_field.insert(0, color_code)
+    label.config(text=color_name,)
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    rainbow_buttons = RainbowButtons(root)
-    root.mainloop()
+# Создаем главное окно приложения
+root = tk.Tk()
+root.geometry("170x300")
+
+root.title("Цвета радуги")
+
+# Словарь с цветами и их кодами
+colors = {
+    "Красный": "#ff0000",
+    "Оранжевый": "#ff7d00",
+    "Желтый": "#ffff00",
+    "Зеленый": "#00ff00",
+    "Голубой": "#007dff",
+    "Синий": "#0000ff",
+    "Фиолетовый": "#7d00ff"
+}
+
+# Текстовое поле для отображения кода цвета
+text_field = tk.Entry(root, width=20)
+text_field.pack()
+
+# Метка для отображения названия цвета
+label = tk.Label(root, text="", font=("Arial", 14))
+label.pack()
+
+# Создаем кнопки для каждого цвета
+for color_name, color_code in colors.items():
+    button = tk.Button(root, bg=color_code,
+                       command=lambda c=color_code, n=color_name: set_color(c, n))
+    button.pack(fill=tk.X)
+
+
+root.mainloop()
