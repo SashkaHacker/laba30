@@ -15,20 +15,11 @@
 from tkinter import *
 
 
-class RadioButtonInfo:
-    def __init__(self, master, text, info, value):
-        self.radiobutton = Radiobutton(
-            master,
-            text=text,
-            indicatoron=0,
-            variable=var,
-            value=value,
-            command=lambda i=info: self.show_info(i)
-        )
-        self.radiobutton.pack(anchor='w', side=LEFT, padx=5, pady=5)
-
-    def show_info(self, info):
-        label['text'] = info
+def show_info(compiled):
+    if compiled:
+        label['text'] = "компилируемый ЯП"
+    else:
+        label['text'] = "некомпилируемый ЯП"
 
 
 if __name__ == "__main__":
@@ -38,11 +29,29 @@ if __name__ == "__main__":
     var = IntVar()
     var.set(0)
 
-    label = Label(root, text="Выберите радиокнопку", width=30)
+    label = Label(root, text="Выберите радиокнопку", width=20, height=2)
     label.pack(pady=10)
 
-    RadioButtonInfo(root, "Python", "Python - интерпретируемый язык программирования", 0)
-    RadioButtonInfo(root, "Java", "Java - компилируемый язык программирования", 1)
-    RadioButtonInfo(root, "C++", "C++ - компилируемый язык программирования", 2)
+    radio_buttons_info = [
+        ("Python", False, 0),
+        ("Java", True, 1),
+        ("C++", True, 2)
+    ]
+
+    radio_frame = Frame(root)
+    radio_frame.pack(side=LEFT, fill=Y, padx=5, pady=5)
+
+    for text, is_compiled, value in radio_buttons_info:
+        rb = Radiobutton(
+            radio_frame,
+            text=text,
+            indicatoron=0,
+            variable=var,
+            value=value,
+            command=lambda compiled=is_compiled: show_info(compiled),
+            width=20,
+            height=2
+        )
+        rb.pack(anchor='w', padx=5, pady=5)
 
     root.mainloop()
